@@ -12,9 +12,11 @@ namespace Full_GRASP_And_SOLID
 {
     public class Program
     {
-        private static List<Product> productCatalog = new List<Product>();
+        private static List<CatalogItem> productCatalog = new List<CatalogItem>();
+        private static List<CatalogItem> equipmentCatalog = new List<CatalogItem>();
 
-        private static List<Equipment> equipmentCatalog = new List<Equipment>();
+        private static CatalogCreator productCreator = new ProductCreator();
+        private static CatalogCreator equipmentCreator = new EquipmentCreator();
 
         public static void Main(string[] args)
         {
@@ -34,23 +36,36 @@ namespace Full_GRASP_And_SOLID
 
         private static void PopulateCatalogs()
         {
-            AddProductToCatalog("Café", 100);
-            AddProductToCatalog("Leche", 200);
-            AddProductToCatalog("Café con leche", 300);
+            AddCatalogItemToCatalog(productCreator, "Café", 100);
+            AddCatalogItemToCatalog(productCreator, "Leche", 200);
+            AddCatalogItemToCatalog(productCreator, "Café con leche", 300);
 
-            AddEquipmentToCatalog("Cafetera", 1000);
-            AddEquipmentToCatalog("Hervidor", 2000);
+            AddCatalogItemToCatalog(equipmentCreator, "Cafetera", 1000);
+            AddCatalogItemToCatalog(equipmentCreator, "Hervidor", 2000);
         }
 
-        private static void AddProductToCatalog(string description, double unitCost)
+        private static void AddCatalogItemToCatalog(CatalogCreator creator, string description, double cost)
         {
-            productCatalog.Add(new Product(description, unitCost));
+            var item = creator.CreateCatalogItem(description, cost);
+
+            if (item != null)
+            {
+                if (item is Product)
+                    productCatalog.Add(item);
+                else if (item is Equipment)
+                    equipmentCatalog.Add(item);
+            }
         }
 
-        private static void AddEquipmentToCatalog(string description, double hourlyCost)
-        {
-            equipmentCatalog.Add(new Equipment(description, hourlyCost));
-        }
+        // private static void AddProductToCatalog(string description, double unitCost)
+        // {
+        //     productCatalog.Add(new Product(description, unitCost));
+        // }
+
+        // private static void AddEquipmentToCatalog(string description, double hourlyCost)
+        // {
+        //     equipmentCatalog.Add(new Equipment(description, hourlyCost));
+        // }
 
         private static Product ProductAt(int index)
         {

@@ -6,16 +6,10 @@
 
 namespace Full_GRASP_And_SOLID
 {
-    public class Product
+    public class Product : CatalogItem
     {
-        public Product(string description, double unitCost)
+        public Product(string description, double unitCost) : base(description, unitCost)
         {
-            this.Description = description;
-            this.UnitCost = unitCost;
         }
-
-        public string Description { get; set; }
-
-        public double UnitCost { get; set; }
     }
 }
